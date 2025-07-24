@@ -1,0 +1,21 @@
+# === C++ build files ===
+*.o
+*.out
+*.exe
+*.obj
+*.gch
+*.log
+*.tmp
+
+# === C# (Visual Studio) build artifacts ===
+bin/
+obj/
+*.user
+*.suo
+*.csproj
+*.sln
+.vs/
+
+# === OS junk files ===
+.DS_Store
+Thumbs.db
