@@ -4,8 +4,9 @@ using namespace std;
 
 struct MyString {
 	char* data;
-	int length;
-	int capacity = 1000;
+	private:
+		int length;
+		int capacity = 1000;
 	
 	public:
 		MyString() {
@@ -35,6 +36,7 @@ struct MyString {
 		
 		~MyString() {
 			delete[] data;
+			data = nullptr;
 		}
 		
 		void push_back(char ch) {
@@ -64,6 +66,10 @@ struct MyString {
 			return count;
 		}
 		
+		int size() const {
+			return length;
+		}
+		
 		MyString substring(int start) {
 			if (start < 0 || start >= length) throw std::out_of_range("substring(start): start index invalid");
 			MyString newStr;
@@ -90,7 +96,7 @@ int main() {
 	char ch;
 	while (cin.get(ch) && ch != '\n') str.push_back(ch);
 	
-	cout << "Str = "; str.print(); cout << " have length = " << str.length << endl;
+	cout << "Str = "; str.print(); cout << " have length = " << str.size() << endl;
 	MyString str2 = str;
 	cout << "Reverse str = "; reverse(str);
 	str.print(); cout << endl;
@@ -110,7 +116,7 @@ int main() {
 }
 
 void reverse(MyString& str) {
-	int len = str.length;
+	int len = str.size();
 	for (int i = 0; i < len/2; i++) {
 		char tmp = str.data[i];
 		str.data[i] = str.data[len-1-i];
@@ -119,7 +125,7 @@ void reverse(MyString& str) {
 }
 
 bool is_palindrome(const MyString& str) {
-	int len = str.length;
+	int len = str.size();
 	for (int i = 0; i < len/2; i++) {
 		if (str.data[i] != str.data[len-1-i]) return false;
 	}
@@ -128,7 +134,7 @@ bool is_palindrome(const MyString& str) {
 
 MyString concat(const MyString& str1, const MyString& str2) {
 	MyString newStr;
-	for (int i = 0; i < str1.length; i++) newStr.push_back(str1.data[i]);
-	for (int i = 0; i < str2.length; i++) newStr.push_back(str2.data[i]);
+	for (int i = 0; i < str1.size(); i++) newStr.push_back(str1.data[i]);
+	for (int i = 0; i < str2.size(); i++) newStr.push_back(str2.data[i]);
 	return newStr;
 }
