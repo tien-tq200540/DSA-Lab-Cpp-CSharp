@@ -3,9 +3,10 @@
 using namespace std;
 
 struct DynamicArray {
-	int* data;
-	int length;
-	int capacity;
+	private:
+		int* data;
+		int length;
+		int capacity;
 	
 	public:
 		DynamicArray() {
@@ -16,6 +17,7 @@ struct DynamicArray {
 		
 		~DynamicArray() {
 			delete[] data;
+			data = nullptr;
 		}
 		
 		DynamicArray(const DynamicArray& other) {
