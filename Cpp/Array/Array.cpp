@@ -94,6 +94,7 @@ struct DynamicArray {
 			}
 		}
 		
+		// TODO: optimize rotate later
 		void rotate(int step) {
 			if (step < 0) throw invalid_argument("rotate(int): invalid step");
 			step %= length;
@@ -105,6 +106,8 @@ struct DynamicArray {
 				step--;
 			}
 		}
+		
+		// TODO: implement insert_at and remove_at after linked list, stack, queue and dequeue
 };
 
 int main() {
