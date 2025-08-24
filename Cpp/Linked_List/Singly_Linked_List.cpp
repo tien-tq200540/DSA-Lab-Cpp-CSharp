@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdexcept>
 using namespace std;
 
 struct Node {
@@ -20,78 +21,202 @@ struct SinglyLinkedList {
 	public:
 		SinglyLinkedList() {
 			head = NULL;
+			length = 0;
 		}
 		
 		~SinglyLinkedList() {
 			//delete all nodes in list
-			
+			clear();
 		}
 		
 		SinglyLinkedList(const SinglyLinkedList& other) {
-			head = NULL;
+			Node* otherIte = other.head;
+			while (otherIte != nullptr) {
+				//clone a node from other list, then push_back
+				push_back(otherIte->data);
+				otherIte = otherIte->next;
+			}
 		}
 		
 		SinglyLinkedList& operator = (const SinglyLinkedList& other) {
-			head = NULL;
+			if (this != &other) {
+				//same with copy constructor
+				clear();
+				Node* otherIte = other.head;
+				while (otherIte != nullptr) {
+					push_back(otherIte->data);
+					otherIte = otherIte->next;
+				}
+			}
+			return *this;
 		}
 		
 		void print_list() {
+			if (length == 0 && head == nullptr) {
+				cout << "Empty linked list!";
+				return;
+			}
 			
+			Node* cur = head;
+			while (cur != nullptr) {
+				cout << cur->data << "-->";
+				cur = cur->next;
+			}
 		}
 		
-		void get_value_at(int index) {
-			
+		int get_value_at(int index) {
+			if (length == 0 && head == nullptr) throw runtime_error("get_value_at(int): linked list is empty");
+			if (index < 0 || index >= length) throw out_of_range("get_value_at(int): range out of bounds");
+			Node* cur = head;
+			while (index-- > 0) cur = cur->next;
+			return cur->data;
 		}
 		
 		void push_front(int data) {
-			
+			Node* newNode = new Node(data);
+			if (length == 0 && head == nullptr) head = newNode;
+			else {
+				newNode->next = head;
+				head = newNode;
+			}
+			length++;
 		}
 		
 		void push_back(int data) {
-			
+			Node* newNode = new Node(data);
+			if (length == 0 && head == nullptr) head = newNode;
+			else {
+				Node* cur = head;
+				while (cur->next != nullptr) cur = cur->next;
+				cur->next = newNode;
+				cur = nullptr;
+			}
+			length++;
 		}
 		
 		void insert_at(int pos, int data) {
-			
+			if (pos < 0 || pos > length) throw out_of_range("insert_at(int, int): range out of bounds");
+			if (pos == 0) push_front(data);
+			else if (pos == length) push_back(data);
+			else {
+				Node* front = head;
+				for (int i = 1; i < pos; i++) front = front->next;
+				Node* newNode = new Node(data);
+				newNode->next = front->next;
+				front->next = newNode;
+				length++;
+				front = nullptr;
+			}
 		}
 		
 		void pop_front() {
-			
+			if (length == 0 && head == nullptr) throw runtime_error("pop_front(): linked list is empty");
+			Node* cur = head;
+			head = head->next;
+			delete cur;
+			cur = nullptr;
+			length--;
 		}
 		
 		void pop_back() {
-			
+			if (length == 0 && head == nullptr) throw runtime_error("pop_back(): linked list is empty");
+			if (length == 1) {
+				delete head;
+				head = nullptr;
+			} else {
+				Node* prev = head;
+				while (prev->next->next != nullptr) prev = prev->next;
+				delete prev->next;
+				prev->next = nullptr;
+				prev = nullptr;
+			}
+			length--;
 		}
 		
 		void remove_at(int pos) {
-			
+			if (length == 0 && head == nullptr) throw runtime_error("remove_at(int): linked list is empty");
+			if (pos < 0 || pos >= length) throw out_of_range("remove_at(int): range out of bounds");
+			if (pos == 0) pop_front();
+			else if (pos == length-1) pop_back();
+			else {
+				Node* front = head;
+				for (int i = 1; i < pos; i++) front = front->next;
+				Node* popNode = front->next;
+				front->next = popNode->next;
+				delete popNode;
+				length--;
+				popNode = nullptr;
+				front = nullptr;
+			}
 		}
 		
-		int size() {
-			return 0;
+		int size() const {
+			return length;
 		}
 		
 		bool is_empty() {
-			return false;
+			return length == 0;
 		}
 		
 		//return the index of the first Node in 0-indexed that has data, or -1 if cannot find
 		int find_value(int data) {
+			if (length > 0) {
+				Node* cur = head;
+				int index = 0;
+				while (cur != nullptr) {
+					if (cur->data == data) return index;
+					cur = cur->next;
+					index++;
+				}
+				cur = nullptr;
+			}
 			return -1;
 		}
 		
 		void reverse() {
-			
+			if (length <= 1) return;
+			Node* front = nullptr; Node* cur = head; Node* nxt = head->next;
+			while (cur != nullptr) {
+				cur->next = front;
+				front = cur;
+				cur = nxt;
+				if (nxt != nullptr) nxt = nxt->next;
+			}
+			head = front;
+			front = nullptr;
+			cur = nullptr;
+			nxt = nullptr;
 		}
 		
 		void clear() {
-			
+			Node* front = head;
+			while (head != nullptr) {
+				head = head->next;
+				delete front;
+				front = head;
+			}
+			head = nullptr;
+			length = 0;
 		}
 };
 
 
 int main() {
+	//DEMO
 	SinglyLinkedList myList;
-	
+	for (int i = 0; i < 1; i++) myList.push_back(i);
+	cout << "My 0-indexed linked list: "; myList.print_list(); cout << endl;
+	cout << "Size = " << myList.size() << endl;
+	//cout << "Value at index 3 is " << myList.get_value_at(3) << endl;
+	myList.pop_back();
+	cout << "My 0-indexed linked list after pop back: "; myList.print_list(); cout << endl;
+	myList.insert_at(2, 10);
+	cout << "My 0-indexed linked list: "; myList.print_list(); cout << endl;
+	myList.remove_at(0);
+	cout << "My 0-indexed linked list: "; myList.print_list(); cout << endl;
+	myList.reverse();
+	cout << "My 0-indexed linked list after reverse: "; myList.print_list(); cout << endl;
+	myList.clear();
+	cout << "My 0-indexed linked list after clear: "; myList.print_list(); cout << endl;
 	return 0;
 }
