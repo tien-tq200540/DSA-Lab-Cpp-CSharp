@@ -36,6 +36,10 @@ int DynamicArray::size() const {
 	return length;
 }
 
+int DynamicArray::get_capacity() const {
+	return capacity;
+}
+
 void DynamicArray::push_back(int value) {
 	if (length >= capacity) {
 		capacity *= 2;
@@ -52,9 +56,14 @@ int DynamicArray::pop_back() {
 	return data[--length];
 }
 
-int DynamicArray::get_value_at(int index) {
+int DynamicArray::get_value_at(int index) const {
 	if (index < 0 || index >= length) throw out_of_range("get_value_at(int): index is out of range");
 	return data[index];
+}
+
+void DynamicArray::set_value_at(int index, int value) {
+	if (index < 0 || index >= length) throw out_of_range("set_value_at(int, int): index is out of range");
+	data[index] = value;
 }
 
 void DynamicArray::print() {

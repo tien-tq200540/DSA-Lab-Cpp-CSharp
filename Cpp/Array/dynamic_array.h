@@ -13,9 +13,11 @@ struct DynamicArray {
 		DynamicArray(const DynamicArray& other);
 		DynamicArray& operator = (DynamicArray& other);
 		int size() const;
+		int get_capacity() const;
 		void push_back(int value);
 		int pop_back();
-		int get_value_at(int index);
+		int get_value_at(int index) const;
+		void set_value_at(int index, int value);
 		void print();
 		void clear();
 		int get_min();
