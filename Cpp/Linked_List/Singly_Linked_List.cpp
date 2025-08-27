@@ -48,7 +48,7 @@ void SinglyLinkedList::print_list() {
 	}
 }
 		
-int SinglyLinkedList::get_value_at(int index) {
+int SinglyLinkedList::get_value_at(int index) const {
 	if (length == 0 && head == nullptr) throw runtime_error("get_value_at(int): linked list is empty");
 	if (index < 0 || index >= length) throw out_of_range("get_value_at(int): range out of bounds");
 	Node* cur = head;

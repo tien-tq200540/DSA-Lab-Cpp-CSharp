@@ -23,7 +23,7 @@ struct SinglyLinkedList {
 		SinglyLinkedList(const SinglyLinkedList& other);
 		SinglyLinkedList& operator = (const SinglyLinkedList& other);
 		void print_list();
-		int get_value_at(int index);
+		int get_value_at(int index) const;
 		void push_front(int data);
 		void push_back(int data);
 		void insert_at(int pos, int data);
