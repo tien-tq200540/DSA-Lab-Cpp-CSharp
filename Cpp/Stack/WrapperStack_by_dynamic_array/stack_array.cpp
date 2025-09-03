@@ -1,5 +1,5 @@
 #include "stack_array.h"
-#include "../Array/dynamic_array.h"
+#include "../../Array/dynamic_array.h"
 
 StackArray::StackArray() {
 	

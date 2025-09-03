@@ -1,5 +1,5 @@
-#include "IStack.h"
-#include "../Array/dynamic_array.h"
+#include "../IStack.h"
+#include "../../Array/dynamic_array.h"
 
 #ifndef STACK_ARRAY_H
 #define STACK_ARRAY_H
